@@ -11,9 +11,11 @@ const User = require("../../models/User");
 // @route   GET /api/users/test
 // @desc    Test users route
 // @access  Public
-router.get("/test", (req, res) => res.json({
-  msg: "Users works"
-}));
+router.get("/test", (req, res) =>
+  res.json({
+    msg: "Users works"
+  })
+);
 
 // @route   POST /api/users/register
 // @desc    Register user
@@ -63,48 +65,47 @@ router.post("/login", (req, res) => {
 
   // Find user by email
   User.findOne({
-      email
-    })
-    .then(user => {
-      // Check for user
-      if (!user) {
-        return res.status(404).json({
-          email: "User not found."
-        })
-      }
+    email
+  }).then(user => {
+    // Check for user
+    if (!user) {
+      return res.status(404).json({
+        email: "User not found."
+      });
+    }
 
-      // Check Password
-      bcrypt.compare(password, user.password)
-        .then(isMatch => {
-          if (isMatch) {
-            // User Matched
-            // Create JWT payload
-            const payload = {
-              id: user.id,
-              name: user.name,
-              avatar: user.avatar
-            };
+    // Check Password
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        // User Matched
+        // Create JWT payload
+        const payload = {
+          id: user.id,
+          name: user.name,
+          avatar: user.avatar
+        };
 
-            // Sign Token
-            jwt.sign(
-              payload,
-              keys.secretOrKey, {
-                expiresIn: 3600
-              },
-              (err, token) => {
-                res.json({
-                  msg: "success",
-                  token: "Bearer " + token
-                })
-              });
-
-          } else {
-            res.status(400).json({
-              password: "Password incorrect"
+        // Sign Token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {
+            expiresIn: 3600
+          },
+          (err, token) => {
+            res.json({
+              msg: "success",
+              token: "Bearer " + token
             });
           }
-        })
-    })
+        );
+      } else {
+        res.status(400).json({
+          password: "Password incorrect"
+        });
+      }
+    });
+  });
 });
 
 module.exports = router;
