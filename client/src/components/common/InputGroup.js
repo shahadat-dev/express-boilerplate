@@ -3,49 +3,50 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
-const TextFieldGroup = ({
+const InputGroup = ({
   placeholder,
   name,
   value,
   error,
-  info,
+  icon,
   type,
-  onChange,
-  disabled
+  onChange
 }) => {
   return (
-    <div className="form-group">
+    <div className="input-group mb-3">
+      <div className="input-group-prepend">
+        <span className="input-group-text">
+          <i className={icon} />
+        </span>
+      </div>
       <input
         className={classnames('form-control form-control-lg', {
           'is-invalid': !isEmpty(error)
         })}
-        onChange={onChange}
-        type={type}
-        name={name}
         placeholder={placeholder}
+        name={name}
         value={value}
-        disabled={disabled}
+        type={type}
+        onChange={onChange}
       />
-      {info && <small className="form-text text-muted">{info}</small>}
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
   )
 }
 
-TextFieldGroup.propTypes = {
+InputGroup.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  id: PropTypes.string,
+  icon: PropTypes.string,
   placeholder: PropTypes.string,
   error: PropTypes.string,
-  info: PropTypes.string,
-  disabled: PropTypes.string
+  info: PropTypes.string
 }
 
-TextFieldGroup.defaultProps = {
+InputGroup.defaultProps = {
   type: 'text'
 }
 
-export default TextFieldGroup
+export default InputGroup
