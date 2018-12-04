@@ -14,7 +14,7 @@ class Navbar extends Component {
 
   render() {
     const { isAuthenticated, user } = this.props.auth
-    const authLinks = (
+    const guestLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/register">
@@ -29,8 +29,13 @@ class Navbar extends Component {
       </ul>
     )
 
-    const guestLinks = (
+    const authLinks = (
       <ul className="navbar-nav ml-auto">
+        <li className="nav-item">
+          <Link className="nav-link" to="/dashboard">
+            Dashboard
+          </Link>
+        </li>
         <li className="nav-item">
           <a
             href=""
@@ -75,7 +80,7 @@ class Navbar extends Component {
                   </Link>
                 </li>
               </ul>
-              {!isAuthenticated ? authLinks : guestLinks}
+              {isAuthenticated ? authLinks : guestLinks}
             </div>
           </div>
         </nav>
