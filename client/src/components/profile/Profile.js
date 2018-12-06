@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import ProfileHeader from './ProfileHeader'
 import ProfileAbout from './ProfileAbout'
 import ProfileCreds from './ProfileCreds'
@@ -39,7 +39,9 @@ class Profile extends Component {
             education={profile.education}
             experience={profile.experience}
           />
-          <ProfileGithub />
+          {profile.githubusername ? (
+            <ProfileGithub username={profile.githubusername} />
+          ) : null}
         </div>
       )
     }
